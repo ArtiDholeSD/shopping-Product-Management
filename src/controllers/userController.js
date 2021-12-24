@@ -7,7 +7,7 @@ const userModel = require("../models/userModel");
 //--------------------------------function for uploading profile image------------------------------------
 let uploadFile = async (file) => {
   return new Promise(function (resolve, reject) {
-    // exactly
+    
 
     // Create S3 service object
     let s3 = new aws.S3({ apiVersion: "2006-03-01" });
@@ -29,28 +29,7 @@ let uploadFile = async (file) => {
     });
   });
 };
-//---------------------------------API to upload profile image-------------------------------------------
 
-
-
-//---------------------------------mycode-------------------------------------------
-// const uploadImage = async function (req, res) {
-//   try {
-//     let files = req.files;
-//     if (files && files.length > 0) {
-//       //upload to s3 and return true..incase of error in uploading this will goto catch block( as rejected promise)
-//       let uploadedFileURL = await uploadFile(files[0]); // expect this function to take file as input and give url of uploaded file as output
-//       res.status(201).send({ status: true, data: uploadedFileURL });
-//     } else {
-//       res.status(400).send({ status: false, msg: "No file to write" });
-//     }
-//   } catch (e) {
-//     console.log("error is: ", e);
-//     res
-//       .status(500)
-//       .send({ status: false, msg: "Error in uploading file to s3" });
-//   }
-// };
 
 //---------------------------1st API To Register user ------------------------------------------------
 const registerUser = async function (req, res) {
@@ -462,6 +441,8 @@ const updateUser = async function (req, res) {
     const { fname, lname, email, profileImage, phone, password, address } = requestBody;
     const updatedUserData = {}
 
+
+
     if (validator.isValid(fname)) {
       if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
         updatedUserData['$set'] = {}
@@ -511,7 +492,7 @@ const updateUser = async function (req, res) {
       updatedUserData['$set']['password'] = password
     }
     //address.shipping
-    if (validator.isValid(address.shipping.street)) {
+    if (validator.isValid(address['shipping'].street)) {
       if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
         updatedUserData['$set'] = {}
       updatedUserData['$set']['address.shipping.street'] = address.shipping.street
@@ -527,24 +508,24 @@ const updateUser = async function (req, res) {
         updatedUserData['$set'] = {}
       updatedUserData['$set']['address.shipping.pincode'] = address.shipping.pincode
     }
-    //address.billing
-    if (validator.isValid(address.billing.street)) {
-      if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
-        updatedUserData['$set'] = {}
-      updatedUserData['$set']['address.billing.street'] = address.billing.street
-    }
+    // //address.billing
+    // if (validator.isValid(address.billing.street)) {
+    //   if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
+    //     updatedUserData['$set'] = {}
+    //   updatedUserData['$set']['address.billing.street'] = address.billing.street
+    // }
 
-    if (validator.isValid(address.billing.city)) {
-      if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
-        updatedUserData['$set'] = {}
-      updatedUserData['$set']['address.billing.city'] = address.billing.city
-    }
+    // if (validator.isValid(address.billing.city)) {
+    //   if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
+    //     updatedUserData['$set'] = {}
+    //   updatedUserData['$set']['address.billing.city'] = address.billing.city
+    // }
 
-    if (validator.isValid(address.billing.pincode)) {
-      if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
-        updatedUserData['$set'] = {}
-      updatedUserData['$set']['address.billing.pincode'] = address.billing.pincode
-    }
+    // if (validator.isValid(address.billing.pincode)) {
+    //   if (!Object.prototype.hasOwnProperty.call(updatedUserData, '$set'))
+    //     updatedUserData['$set'] = {}
+    //   updatedUserData['$set']['address.billing.pincode'] = address.billing.pincode
+    // }
 
     const updatedUser = await userModel.findOneAndUpdate({ _id: userId }, updatedUserData, { new: true })
 

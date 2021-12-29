@@ -5,6 +5,7 @@ const router = express.Router();
 const UserController = require('../controllers/userController')
 const ProductController=require('../controllers/productController')
 const CartController=require('../controllers/cartController')
+const OrderController =require('../controllers/orderController')
 const {authMiddleware} = require('../middlewares')
 
 
@@ -30,5 +31,12 @@ router.delete("/products/:productId",ProductController.deleteProduct)
 //----------create cart ---------------------------------------------------------------
 
 router.post('/users/:userId/cart',CartController.addToCart)
+
+
+
+
+//----------create Order---------------------------------------------------------------
+
+router.post('/users/:userId/orders',OrderController.createOrder)
 
 module.exports = router;

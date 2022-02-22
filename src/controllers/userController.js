@@ -2,7 +2,7 @@ const userModel = require('../models/userModel')
 const validator = require('../utils/validator')
 const config = require('../utils/awsConfig')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')//for password encoding and decoding
 const saltRounds = 10
 
 //creating user by validating every details.
